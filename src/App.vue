@@ -1,26 +1,51 @@
 <template>
-  <img alt="Vue logo" src="./assets/logo.png">
-  <HelloWorld msg="Welcome to Your Vue.js App"/>
+  <div class="container">
+    <div class="row my-5 justify-content-center">
+      <div class="col-lg-8">
+        <AppTitle title="Invoice Application"></AppTitle>
+        <InputForm @add-list="addInvoiceList"></InputForm>
+        <ItemTable :lists="lists" @delete="deleteItem" />
+        <button class="d-print-none btn btn-primary" @click="printInvoice">Print</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import AppTitle from './components/AppTitle.vue';
+import InputForm from './components/InputForm.vue';
+import ItemTable from './components/ItemTable.vue';
 export default {
-  name: 'App',
-  components: {
-    HelloWorld
-  }
+  components: { AppTitle, InputForm, ItemTable },
+  data() {
+    return {
+      lists: [
+
+      ],
+    }
+  },
+  methods: {
+    addInvoiceList(quantity, item) {
+      item.quantity = quantity;
+      item.cost = quantity * item.price;
+      // console.log(item)
+      this.lists.push(item);
+      this.totalCost += item.cost;
+    },
+    deleteItem(index) {
+      console.log(index);
+      this.lists.splice(index, 1)
+    },
+    printInvoice() {
+      print();
+    }
+  },
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
+@import url('https://fonts.googleapis.com/css2?family=Padauk:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap');
+@import "bootstrap-icons/font/bootstrap-icons.css";
+@import "animate.css/animate.min.css";
+@import 'bootstrap/dist/css/bootstrap.min.css';
 </style>
